@@ -1,130 +1,71 @@
 # Sales Transaction Data Analysis
 
-This repository contains an exploratory data analysis (EDA) of a retail sales transactions dataset. It includes data cleaning, preprocessing, and visualization using Python libraries such as pandas, matplotlib, and seaborn.
+This project involves exploratory data analysis (EDA) of a retail sales transaction dataset. It covers the process of data cleaning, preprocessing, and uncovering patterns using visualizations.
 
----
+## Dataset Overview
 
-## 📁 Dataset Overview
+- The dataset contains retail transaction records.
+- Key columns include Transaction ID, Customer ID, Category, Item, Price Per Unit, Quantity, Total Spent, Payment Method, Location, Transaction Date, and Discount Applied.
 
-- Each row represents a sales transaction.
-- Key columns:
-  - `Transaction ID`
-  - `Customer ID`
-  - `Category`
-  - `Item`
-  - `Price Per Unit`
-  - `Quantity`
-  - `Total Spent`
-  - `Payment Method`
-  - `Location`
-  - `Transaction Date`
-  - `Discount Applied`
+## Data Cleaning
 
----
+- Identified missing values in several numeric and categorical columns.
+- Missing values in price, quantity, and total spent were filled or dropped as needed to maintain consistency.
+- Discount Applied column was filled with default 'False' where missing.
+- Transaction Date was converted to a consistent datetime format using day-month-year pattern.
 
-## 🧹 Data Cleaning
+## Exploratory Data Analysis
 
-- Checked and handled **missing values**:
-  - Filled `Price Per Unit`, `Quantity`, and `Total Spent` missing values based on logical imputations or dropped where required.
-  - Filled `Discount Applied` nulls with `'False'`.
+### Monthly Revenue Trend
 
-```python
-df['Discount Applied'] = df['Discount Applied'].fillna('False')
-```
+- Grouped the transactions by month and visualized total revenue over time.
+- Identified monthly fluctuations and seasonality in sales.
 
-- Converted `Transaction Date` to proper datetime format:
+### Revenue Distribution by Category
 
-```python
-df['Transaction Date'] = pd.to_datetime(df['Transaction Date'], format='%d-%m-%Y', errors='coerce')
-```
+- Compared how much revenue each product category generated.
+- Displayed as a pie chart to show relative contribution of each category.
 
----
+### Top Items by Revenue
 
-## 📊 Exploratory Data Analysis (EDA)
+- Identified top 10 items generating the most revenue.
+- Visualized using a horizontal bar plot.
 
-### 1. Monthly Revenue Trend
+### Payment Method Distribution
 
-- Grouped data by month and visualized total revenue.
+- Analyzed which payment methods were used most frequently.
+- Useful for understanding customer preferences.
 
-```python
-monthly_sales = df.groupby(df['Transaction Date'].dt.to_period('M'))['Total Spent'].sum()
-monthly_sales.plot(kind='line', marker='o')
-```
+### Impact of Discount on Spending
 
----
+- Compared total amount spent between transactions with and without discounts.
+- Helped evaluate effectiveness of discount strategies.
 
-### 2. Revenue Distribution by Product Category
+### Revenue by Location
 
-```python
-category_revenue = df.groupby('Category')['Total Spent'].sum()
-category_revenue.plot(kind='pie', autopct='%1.1f%%', startangle=90)
-```
+- Compared total revenue generated from different locations.
+- Highlighted best-performing and underperforming regions.
 
----
+### Quantity Sold per Category
 
-### 3. Top 10 Items by Revenue
+- Summarized the total quantity sold for each product category.
+- Gave insights into product demand.
 
-```python
-top_items = df.groupby('Item')['Total Spent'].sum().sort_values(ascending=False).head(10)
-sns.barplot(x=top_items.values, y=top_items.index)
-```
+## Tools Used
 
----
+- Python for data analysis
+- Pandas for data manipulation
+- Matplotlib and Seaborn for visualization
 
-### 4. Payment Method Distribution
+## Key Findings
 
-```python
-df['Payment Method'].value_counts().plot.pie(autopct='%1.1f%%', startangle=90)
-```
+- Some product categories and items generate significantly more revenue than others.
+- Discounts have a limited but noticeable impact on customer spending.
+- Certain locations contribute heavily to overall sales.
+- Monthly sales trends reveal periodic patterns that can inform business strategy.
 
----
+## Future Improvements
 
-### 5. Impact of Discounts on Sales
-
-```python
-sns.boxplot(x='Discount Applied', y='Total Spent', data=df)
-```
-
----
-
-### 6. Revenue by Location
-
-```python
-location_sales = df.groupby('Location')['Total Spent'].sum().sort_values(ascending=False)
-sns.barplot(x=location_sales.values, y=location_sales.index)
-```
-
----
-
-### 7. Quantity Sold per Category
-
-```python
-category_quantity = df.groupby('Category')['Quantity'].sum().sort_values()
-sns.barplot(x=category_quantity.values, y=category_quantity.index)
-```
-
----
-
-## 🛠️ Tools Used
-
-- Python (pandas, matplotlib, seaborn)
-- Jupyter Notebook / VSCode
-- Git and GitHub
-
----
-
-## 📈 Insights
-
-- Certain categories/items contribute significantly more to total revenue.
-- Discounts slightly influence customer spending behavior.
-- Some locations outperform others in total sales volume.
-
----
-
-## 📎 Future Work
-
-- Build an interactive dashboard using Plotly or Power BI.
-- Predictive analysis: Forecast sales or recommend items.
-- Customer segmentation based on purchase behavior.
-
----
+- Build interactive dashboards for live insights.
+- Use machine learning to predict future sales.
+- Segment customers based on purchasing behavior for targeted marketing.
